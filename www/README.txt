@@ -1,11 +1,9 @@
 
 Автор: Sergio.Lesnik@gmail.com
 
-Т.к. было выложено несколько копий, актуальная будет обновляться на github: 
-https://github.com/lesnikyan/php_lessons/  в директории /www/mvc-project/
+Теперь основное место жительста проекта:
+https://github.com/lesnikyan/mvc-wf
 
-и в новой директории Google Drive:
-https://drive.google.com/folderview?id=0B4Y_0UyYEJFTQ19RTWZnYWs4ckk&usp=sharing
 
 ---
 1. Чтоэта?
