@@ -61,4 +61,12 @@ class TestController {
     function server(){
         p($_SERVER['HTTP_HOST']);
     }
+	
+	function cache(){
+		$data = ['name'=>'Vasya', 'noname'=>'Asya', 'x-name'=>'Nasya'];
+		Wf::cache('test/test2/test3')->save('data01', $data);
+		
+		$data2 = Wf::cache()->get('data01');
+		p($data2);
+	}
 }

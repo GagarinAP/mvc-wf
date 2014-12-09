@@ -22,6 +22,8 @@ $config = array(
         // server info
 	'base_domain' => 'http://mvc-loc.com',
 	
+	'cache_storage_dir' => DOC_ROOT . '/cache',
+	
         // security properties
 	'pass_hash_salt' => '100500-qwerty-salt!', // salt for user passwords hashing
 	'auth_key_life' => 3600 * 24 * 30

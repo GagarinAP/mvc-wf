@@ -22,6 +22,7 @@ $includes = array(
 	'router',
 	'model',
 	'view',
+	'cache',
 	'core'
 );
 

@@ -5,6 +5,7 @@ class Wf {
 	private $conf;
 	private $router;
 	private $context;
+	private $_cache = null;
 
 	function __construct(){
 		$this->loadConf();
@@ -109,5 +110,21 @@ class Wf {
 	
 	static function post($key){
 		return isset($_POST[$key]) ? $_POST[$key] : null;
+	}
+	
+	/**
+	 * 
+	 * @param type $path - relative/cache/path (top lvl id = name of file)
+	 */
+	static function cache($path=null){
+		if(self::$instance->_cache == null){
+		//	p('create cache');
+			self::$instance->_cache = new Cache(self::conf('cache_storage_dir'));
+		}
+		if($path){
+			p("wf:cache:path: $path");
+			self::$instance->_cache->setPath($path);
+		}
+		return self::$instance->_cache;
 	}
 }

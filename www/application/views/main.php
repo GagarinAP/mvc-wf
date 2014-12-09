@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title><?=$title?></title>
+	<title>MVC-Wf: <?=$title?></title>
         <style>
             body{
                 padding:0;
