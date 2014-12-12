@@ -18,6 +18,7 @@ $config = array(
 	// default values for routing:
 	'default_controller' => 'main',
 	'default_method' => 'index',
+	'pages.service.404' => 'page404',
     
         // server info
 	'base_domain' => 'http://mvc-loc.com',

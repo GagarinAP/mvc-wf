@@ -7,7 +7,7 @@ class Wf {
 	private $context;
 	private $_cache = null;
 
-	function __construct(){
+	private function __construct(){
 		$this->loadConf();
 	}
 
@@ -20,7 +20,6 @@ class Wf {
 	function prepare(){
 		$this->router = new Router();
 		$this->routing();
-                //p($this->router);
 	}
 
 	function loadConf(){
@@ -34,7 +33,6 @@ class Wf {
 
 	function routing(){
 		$this->context = $this->router->load();
-		//p($this->context);
 	}
 
 	function run(){
@@ -55,7 +53,7 @@ class Wf {
 	function error404(){
 		$page = $this->context->path;
 		$class = $this->loadController('service');
-		return $this->runController($class, 'page404', array($page));
+		return $this->runController($class, self::conf('pages.service.404'), array($page));
 	}
 
 	function loadController($name){
