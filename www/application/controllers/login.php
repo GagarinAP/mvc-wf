@@ -46,11 +46,8 @@ class LoginController extends Controller {
         }
         
         $model = Wf::model('users');
-        // проверка уникальности login, email
-        // добавление новой записи в БД
-        // hash: md5, sha1, sha512
-        //p(strlen($model->hashPass($pass)));
 		
+        // проверка уникальности login, email, добавление новой записи в БД
         $res = $model->create([
             'login' => $login,
             'email' => $email,
@@ -92,18 +89,18 @@ class LoginController extends Controller {
             return $this->form($warning);
         }
         $id = $res[0]->id;
-        //p($userData); return;
         $userData = $model->read($id);
         
         $_SESSION['user_id'] = $userData->id;
         $_SESSION['user_login'] = $userData->login;
         
-        
+        // randomized by time hash
         $key = $model->hashPass('dsf.k;gh589tuedhspe58' . microtime() . mt_rand());
         $model->update($userData->id, ['authkey' => $key]);
         $this->longTimeAuth($key);
         
-        header('location:'.Wf::conf('base_domain').'/main');
+        //header('location:'.Wf::conf('base_domain').'/main');
+		Wf::redirectTo('main');
     }
     
     private function longTimeAuth($hashKey){

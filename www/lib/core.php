@@ -19,6 +19,13 @@ class Wf {
 
 	function prepare(){
 		$this->router = new Router();
+		if(self::conf('routing.use_rules')){
+			$routing = new Routing();
+			foreach(self::conf('routing.rules') as $rule){
+				$routing->add($rule);
+			}
+			$this->router->setRules($routing);
+		}
 		$this->routing();
 	}
 
@@ -124,5 +131,31 @@ class Wf {
 			self::$instance->_cache->setPath($path);
 		}
 		return self::$instance->_cache;
+	}
+	
+	/**
+	 * redirect to subpath of current website
+	 * @param type $subUrl - part of url in current domain
+	 */
+	static function redirectTo($subUrl){
+		self::redirect(self::subUrl($subUrl));
+	}
+	
+	/**
+	 * redirect to url
+	 * @param type $url
+	 */
+	static function redirect($url){
+		header('location:' . self::subUrl($subUrl));
+	}
+	
+	/**
+	 * makes url from subpath like '/controller/method/param'
+	 * @param type $path - subpath after domain and base path
+	 * @return string
+	 */
+	static function subUrl($path){
+		$divider = $path{0} == '/' ? '' : '/';
+		return Wf::conf('protocol') . '://' . $_SERVER['HTTP_HOST'] . Wf::conf('base_path') . $divider . $path;
 	}
 }

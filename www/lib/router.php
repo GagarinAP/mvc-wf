@@ -9,21 +9,32 @@ class Router {
 	private $path;
 	private $queryString = '';
 	private $GET = array();
+	private $routing = null;
 
 	function __construct(){
 		$this->controller = Wf::conf('default_controller');
 		$this->method = Wf::conf('default_method');
 	}
+	
+	function setRules(Routing $routing){
+		$this->routing = $routing;
+	}
 
 	function load(){
-		//p($_SERVER);
+	//	p($_SERVER);
+		if($this->routing != null){
+			$this->loadByRule();
+		} else {
+			$this->loadBySegments();
+		}
+		return $this->context();
+	}
+	
+	function loadBySegments(){
 		$path = $_SERVER['REQUEST_URI'];
-		$this->path = $path;
 		$posQMark = strpos($path, '?');
 		if($posQMark != false){
-			//$path= substr($path, 0, $posQMark);
 			$subs = explode('?', $path);
-			//p($subs);
 			$path = $subs[0];
 			if(strlen($subs[1]) > 0){
 				$this->queryString = $subs[1];
@@ -34,21 +45,12 @@ class Router {
 				}
 			}
 		}
-		//p($_GET);
-//		p('path = ' . $path);
-		$base = Wf::conf('base_path');
-		if(strlen($path)
-			&& strpos($path, $base) !== false
-			&& substr($path, 0, strlen($base)) === $base ){
-			$path = substr($path, strlen($base));
-			$path = trim($path, '/');
-			//p('path = ' . $path);
-		}
-		//p('path = ' . $path);
+		
+		$path = $this->routingPath($path);
+		$path = trim($path, '/');
 		if(strlen($path) < 1)
 			return $this->context();
 		$seg = explode('/', $path);
-		//p($seg);
 		$segNum = count($seg);
 		$this->segments = $seg;
 		if($segNum > 0){
@@ -60,17 +62,37 @@ class Router {
 				}
 			}
 		}
-		//p($this);
-		return $this->context();
+	}
+	
+	function loadByRule(){
+		$path = $_SERVER['REQUEST_URI'];
+		$path = $this->routingPath($path);
+		$routingData = $this->routing->find($path)->getRouting();
+		foreach(['controller', 'method', 'params'] as $key){
+			if(isset($routingData[$key])){
+				$this->{$key} = $routingData[$key];
+			}
+		}
+	}
+	
+	function routingPath($path){
+		$base = Wf::conf('base_path');
+		if(	strlen($base) > 0
+			&& strlen($path)
+			&& strpos($path, $base) !== false
+			&& substr($path, 0, strlen($base)) === $base ){
+			$path = substr($path, strlen($base));
+		}
+		$this->path = $path;
+		return $path;
 	}
 
 	function context(){
-		return (object) array(
-			'controller' => $this->controller,
-			'method' => $this->method,
-			'params' => $this->params,
-			'path' => $this->path
-		);
+		$res = [];
+		foreach(['controller', 'method', 'params', 'path'] as $key){
+			$res[$key] = $this->{$key};
+		}
+		return (object)$res;
 	}
 	
 	function queryVal($key){

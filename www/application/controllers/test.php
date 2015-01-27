@@ -19,6 +19,15 @@ class TestController {
                 p('<a href="/login">Go to login, man</a>');
             }
         }
+		$methods = get_class_methods($this);
+		unset($methods[array_search('index', $methods)]);
+		$methods = array_values($methods);
+		//p($methods);
+		print "\n<div>tests:<br>";
+		foreach($methods as $meth){
+			print "<div><a href='/test/$meth'>$meth</a></div>\n";
+		}
+		print "</div>\n";
     }
     
     function test_tpl(){
@@ -68,5 +77,14 @@ class TestController {
 		
 		$data2 = Wf::cache()->get('data01');
 		p($data2);
+	}
+	
+	function routing_class($p1, $p2){
+		p("Test: routing [$p1, $p2]");
+		p(Wf::subUrl('/contr/func/param1/param2'));
+	}
+	
+	function get_mail(){
+		 p(file_get_contents('http://mail.ru'));
 	}
 }

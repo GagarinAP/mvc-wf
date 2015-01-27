@@ -19,11 +19,13 @@ $includes = array(
 	'dev.functions',
 	'mysql.drv',
 	'controller',
+	'Routing',
 	'router',
 	'model',
 	'view',
 	'cache',
-	'core'
+	'core',
+	'User'
 );
 
 foreach($includes as $fileName){
