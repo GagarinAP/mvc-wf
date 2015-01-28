@@ -1,6 +1,6 @@
 <?php
 
-class TestController {
+class TestController extends Controller {
     
     function index(){
         p("Hello my dier test controller!");
@@ -54,7 +54,9 @@ class TestController {
             //print $html;
     }
     
-    function mdhash($str){
+    function mdhash($str=null){
+		if(is_null($str))
+			return p('no param :(');
         for($i=0; $i<5; ++$i){
             ob_start();
             p($i);
@@ -85,6 +87,13 @@ class TestController {
 	}
 	
 	function get_mail(){
-		 p(file_get_contents('http://mail.ru'));
+		p('<a href="/test">return to test</a>');
+		p(file_get_contents('http://mail.ru'));
+	}
+	
+	function view_import(){
+		Wf::view('tests/extra_tpl', ['title'=>'test of view import',
+			'names'=>['Mery', 'John', 'Ricardo', 'Vasya'],
+			'name'=>'Superman'])->render(1);
 	}
 }

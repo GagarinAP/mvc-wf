@@ -29,4 +29,9 @@ class View{
 			print $resultContent;
 		return $resultContent;
 	}
+	
+	function import($tpl, $data){
+		$view = new View(APP_ROOT . '/views/' . $tpl . '.php', array_merge($this->data, $data));
+		return $view->render(true);
+	}
 }

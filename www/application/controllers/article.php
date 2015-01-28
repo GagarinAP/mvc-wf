@@ -1,6 +1,6 @@
 <?php
 
-class ArticleController {
+class ArticleController extends Controller {
     
     function index(){
         // show all articles

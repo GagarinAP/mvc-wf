@@ -1,6 +1,6 @@
 <?php
 
-class AdminController {
+class AdminController extends Controller {
 	
 	function __construct(){
 		if(! User::current()->logged){
