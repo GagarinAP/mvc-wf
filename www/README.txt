@@ -166,3 +166,4 @@ https://github.com/lesnikyan/mvc-wf
 		redirect - перенаправляет запрос на указанный url
 		redirectTo - перенаправляет запрос на указанный локальный путь
 		subUrl - создает url по локальному пути
+		cookie - устанавливает и возвращает cookie
