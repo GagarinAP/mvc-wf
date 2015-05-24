@@ -117,6 +117,45 @@ class Wf {
 		return isset($_POST[$key]) ? $_POST[$key] : null;
 	}
 	
+	
+	const TIME_UNIT_YEAR = 31536000;
+	const TIME_UNIT_MONTH = 2592000;
+	const TIME_UNIT_WEEK = 604800;
+	const TIME_UNIT_DAY = 86400;
+	const TIME_UNIT_HOUR = 3600;
+	const TIME_UNIT_MIN = 60;
+	const TIME_UNIT_SEC = 1;
+	
+		
+	/**
+	 * Set or get cookie.
+	 * get stored value when uses 1 param $name
+	 * when $period is simple int - param means expired time
+	 * when $period is array - param means period from current time
+	 * where 0: number of units, 1: type of unit
+	 * 
+	 * @param type $name
+	 * @param type $value
+	 * @param type $period - value of period (not time point): [int, TIME_UNIT_*] or time point (seconds from 1970)
+	 * @return type - value of stored cookie or null
+	 * @throws Exception
+	 */
+	static function cookie($name, $value=null, $period=null){
+		if($value === null){
+			return isset($_COOKIE[$name]) ? $_COOKIE[$name] : null;
+		}
+		$expired = $period;
+		if(is_array($expired)){
+			if(count($period) < 2){
+				throw new Exception("Cookie: Bad period format.");
+			}
+			$timeNums = $period[0];
+			$timeStep = $period[1];
+			$expired = time() + $timeNums * $timeStep;
+		}
+		setcookie($name, $value, intval($expired));
+	}
+	
 	/**
 	 * 
 	 * @param type $path - relative/cache/path (top lvl id = name of file)
@@ -127,7 +166,7 @@ class Wf {
 			self::$instance->_cache = new Cache(self::conf('cache_storage_dir'));
 		}
 		if($path){
-			p("wf:cache:path: $path");
+			//p("wf:cache:path: $path");
 			self::$instance->_cache->setPath($path);
 		}
 		return self::$instance->_cache;

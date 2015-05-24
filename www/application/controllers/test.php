@@ -96,4 +96,11 @@ class TestController extends Controller {
 			'names'=>['Mery', 'John', 'Ricardo', 'Vasya'],
 			'name'=>'Superman'])->render(1);
 	}
+	
+	function cookie(){
+		$val = Wf::cookie('test_wf');
+		p("stored: $val");
+		Wf::cookie('test_wf', 1, 1);
+		Wf::cookie('test_wf', 'test_' . time(), [5, Wf::TIME_UNIT_MIN]);
+	}
 }
