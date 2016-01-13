@@ -103,4 +103,40 @@ class TestController extends Controller {
 		Wf::cookie('test_wf', 1, 1);
 		Wf::cookie('test_wf', 'test_' . time(), [5, Wf::TIME_UNIT_MIN]);
 	}
+	
+	function captcha(){
+		p("Test colors");
+		$cp = new Captcha(150, 50);
+		$testColor = function($mid)use($cp){
+			for($i=0; $i<10;++$i){
+				$c = $cp->randomColor($mid);
+				$style = "background-color: rgb({$c[0]},{$c[1]},{$c[2]}); ";
+				p("<div style='$style'>[{$c[0]},{$c[1]},{$c[2]}]</div>");
+			}
+		};
+		p("mid = default");
+		$testColor(127);
+		p("mid = 50");
+		$testColor(50);
+		p("mid = 200");
+		$testColor(200);
+		
+	}
+	
+	function captcha_text(){
+		$params = [
+			'size' => 16, // font size
+			'sizeDiff' => 4, // limitation of font size changing to up
+			'offset' => 10, // max vertical offset
+			'hOffset' => 4, // max horisontal offset
+			'angle' => 60, // max angle of char rotation
+			'color' => true // true - random color for each, false - black, [r,g,b] - current color
+		];
+		$cp = new Captcha(150, 50);
+		
+		$cp->setParams($params);
+		for($i=0; $i<100; ++$i){
+			$cp->bg([200,255,200])->makeText()->addText()->imageHeader()->result();
+		}
+	}
 }

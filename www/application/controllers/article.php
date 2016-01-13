@@ -52,7 +52,7 @@ class ArticleController extends Controller {
             // update
             $res = $model->update($artId, $data);
             if($res){
-                p("article <a href='/article/view/$artId'>$title</a> updated");
+                p("article <a href='/article/view/$artId'>{$data['title']}</a> updated");
             }
         } else {
             // create
@@ -60,6 +60,7 @@ class ArticleController extends Controller {
             $artId = $model->create($data);
             p("created article <a href='/article/view/$artId'>{$data['title']}</a>");
         }
+		$this->view($artId);
     }
     
     private function getFormData(){

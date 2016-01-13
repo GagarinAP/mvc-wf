@@ -38,15 +38,18 @@ class Model {
 
 	function update($id, $data){
 // UPDATE {table} SET field1 = ?, field2 = ?
-		$fields = '';
+		if(empty($data)){
+			throw new Exception("Model update error: empty data");
+		}
+		$fields = [];
 		$sqlData = array();
 		foreach($data as $key => $val){
-			$fields = "`{$key}` = ?,";
+			$fields[] = "`{$key}` = ?";
 			$sqlData[] = $val;
 		}
-		$fields = substr($fields, 0 , -1);
+		$fieldsStr = implode(' ,', $fields);
 
-		$sql = "UPDATE `{$this->table}` SET $fields WHERE `id` = ?";
+		$sql = "UPDATE `{$this->table}` SET $fieldsStr WHERE `id` = ?";
 		$sqlData[] = $id;
 //return;
 		return $this->db->update($sql, $sqlData);

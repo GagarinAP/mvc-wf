@@ -24,8 +24,9 @@ $includes = array(
 	'model',
 	'view',
 	'cache',
-	'core',
-	'User'
+	'ImageRenderer',
+	'Captcha',
+	'core'
 );
 
 foreach($includes as $fileName){

@@ -14,6 +14,12 @@ function p($x, $typeFlag = 0){
 	}
 }
 
+function vd($x){
+	print "<div><pre>\n";
+	var_dump($x);
+	print "</pre></div>";
+}
+
 function html_table($data, $style=''){
 	if(empty($data)){
 		return null;
