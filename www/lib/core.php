@@ -185,7 +185,7 @@ class Wf {
 	 * @param type $url
 	 */
 	static function redirect($url){
-		header('location:' . self::subUrl($subUrl));
+		header('location:' . $url);
 	}
 	
 	/**

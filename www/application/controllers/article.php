@@ -60,7 +60,8 @@ class ArticleController extends Controller {
             $artId = $model->create($data);
             p("created article <a href='/article/view/$artId'>{$data['title']}</a>");
         }
-		$this->view($artId);
+		//$this->view($artId);
+		Wf::redirectTo("/article/view/{$artId}");
     }
     
     private function getFormData(){
